@@ -24,15 +24,22 @@ namespace DemoMvc.Controllers
             return View();
         }
 
+        [HttpGet("PrivacyPolicy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
-        [HttpGet("500")]
+        [HttpGet("Test/500")]
         public IActionResult Boom(string id)
         {
             throw new ApplicationException($"Boom! {id}");
+        }
+
+        [HttpGet("Test/404")]
+        public IActionResult TestNotFound()
+        {
+            return NotFound();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

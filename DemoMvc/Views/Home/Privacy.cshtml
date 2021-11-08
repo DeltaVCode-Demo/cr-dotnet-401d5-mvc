@@ -1,6 +1,17 @@
 @{
     ViewData["Title"] = "Privacy Policy";
+
+    string welcomeMessage = "sup";
+
+    if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+    {
+        welcomeMessage = "Looks like somebody has a case of the Mondays";
+    }
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<p>1 + 1 = @(1 + 1)</p>
+
+<h2>@welcomeMessage</h2>
