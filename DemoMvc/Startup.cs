@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoMvc.Data;
+using DemoMvc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,8 @@ namespace DemoMvc
 
             services.AddDbContext<DemoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IFamilyRepository, DatabaseFamilyRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

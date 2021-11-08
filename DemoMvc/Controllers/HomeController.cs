@@ -6,22 +6,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DemoMvc.Models;
+using DemoMvc.Services;
 
 namespace DemoMvc.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IFamilyRepository familyRepository;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IFamilyRepository familyRepository, ILogger<HomeController> logger)
         {
+            this.familyRepository = familyRepository;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Home!!");
-            return View();
+
+            List<Family> families = await familyRepository.GetAll();
+            return View(families);
         }
 
         [HttpGet("PrivacyPolicy")]
