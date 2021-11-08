@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,12 +20,19 @@ namespace DemoMvc.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Home!!");
             return View();
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpGet("500")]
+        public IActionResult Boom(string id)
+        {
+            throw new ApplicationException($"Boom! {id}");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
