@@ -40,7 +40,7 @@ namespace DemoMvc
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(); // Load CSS and JS files from wwwroot
 
             app.UseRouting();
 
@@ -48,9 +48,18 @@ namespace DemoMvc
 
             app.UseEndpoints(endpoints =>
             {
+                // Used this for APIs, which specify their own routes
+                endpoints.MapControllers();
+
+                // Default route "convention"
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                // /                 => HomeController.Index()
+                // /About            => AboutController.Index()
+                // /About/Contact    => AboutController.Contact()
+                // /About/Staff/1    => AboutController.Staff(id: 1)
             });
         }
     }
