@@ -1,3 +1,4 @@
+using DemoMvc.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,7 @@ namespace DemoMvc.Data
         public DemoDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Family> Families { get; set; }
     }
 }
