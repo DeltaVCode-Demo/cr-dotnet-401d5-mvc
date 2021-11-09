@@ -34,6 +34,7 @@ namespace DemoMvc.Controllers
             }
 
             var family = await _context.Families
+                .Include(f => f.People)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (family == null)
             {

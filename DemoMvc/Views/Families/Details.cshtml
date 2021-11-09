@@ -10,10 +10,10 @@
     <h4>Family</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
@@ -22,3 +22,43 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+<h2>People!</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.People[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.People[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.People[0].Family)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.People)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Family.Name)
+                </td>
+                <td>
+                    <a asp-controller="People" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="People" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="People" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
