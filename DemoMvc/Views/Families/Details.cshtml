@@ -25,6 +25,17 @@
 
 <h2>People!</h2>
 
+<ul>
+    @foreach (var person in Model.People)
+    {
+        <li>
+            <a asp-controller="People" asp-action="Details" asp-route-id="@person.Id">
+                @person.FirstName @person.LastName
+            </a>
+        </li>
+    }
+</ul>
+
 <table class="table">
     <thead>
         <tr>
