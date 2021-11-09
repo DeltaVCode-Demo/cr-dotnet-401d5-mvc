@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,10 @@ namespace DemoMvc.Models
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+
+        [DataType(DataType.Date)]
+        [Column(TypeName = "date")] // store as only date in SQL
+        public DateTime? DateOfBirth { get; set; }
 
         // If you leave this out, it will probably figure out that you need one
         [Display(Name = "Family")]
