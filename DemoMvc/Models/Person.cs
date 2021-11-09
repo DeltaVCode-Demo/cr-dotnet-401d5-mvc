@@ -21,6 +21,7 @@ namespace DemoMvc.Models
         [StringLength(50)]
         public string LastName { get; set; }
 
+        [Display(Name = "Birthdate")]
         [DataType(DataType.Date)]
         [Column(TypeName = "date")] // store as only date in SQL
         public DateTime? DateOfBirth { get; set; }
