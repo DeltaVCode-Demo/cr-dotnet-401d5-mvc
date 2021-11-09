@@ -1,3 +1,4 @@
+using DemoMvc.Models;
 using DemoMvc.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,9 +17,20 @@ namespace DemoMvc.Controllers
             this.dashboard = dashboard;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            int catCount = await dashboard.GetCategoryCount();
+            int prodCount = await dashboard.GetProductCount();
+            int orderCount = await dashboard.GetPendingOrderCount();
+
+            var model = new AdminIndexViewModel
+            {
+                CategoryCount = catCount,
+                ProductCount = prodCount,
+                OrderCount = orderCount,
+            };
+
+            return View(model);
         }
     }
 }
