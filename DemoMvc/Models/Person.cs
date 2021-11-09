@@ -22,6 +22,7 @@ namespace DemoMvc.Models
         public string LastName { get; set; }
 
         [Display(Name = "Birthdate")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", NullDisplayText = "(not provided)")]
         [DataType(DataType.Date)]
         [Column(TypeName = "date")] // store as only date in SQL
         public DateTime? DateOfBirth { get; set; }
