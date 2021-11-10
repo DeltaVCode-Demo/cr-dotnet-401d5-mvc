@@ -49,5 +49,25 @@ namespace DemoMvc.Controllers
             // Post - Redirect - Get to avoid "do you want to resubmit?"
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginData data)
+        {
+            var user = await userService.Authenticate(data);
+            if (user != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError(nameof(LoginData.Password), "Email or Password was incorrect.");
+
+            return View(data);
+        }
     }
 }
