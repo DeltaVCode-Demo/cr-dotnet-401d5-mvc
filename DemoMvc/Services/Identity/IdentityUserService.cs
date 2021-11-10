@@ -19,10 +19,12 @@ namespace DemoMvc.Services.Identity
 
     public class IdentityUserService : IUserService
     {
+        private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
 
-        public IdentityUserService(UserManager<IdentityUser> userManager, ILogger<IdentityUserService> logger)
+        public IdentityUserService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<IdentityUserService> logger)
         {
+            this.signInManager = signInManager;
             this.userManager = userManager;
             Logger = logger;
         }
@@ -35,6 +37,7 @@ namespace DemoMvc.Services.Identity
 
             if (await userManager.CheckPasswordAsync(user, data.Password))
             {
+                await signInManager.SignInAsync(user, false);
                 return await CreateUserDto(user);
             }
 
@@ -62,6 +65,7 @@ namespace DemoMvc.Services.Identity
 
             if (result.Succeeded)
             {
+                await signInManager.SignInAsync(user, false);
                 return await CreateUserDto(user);
             }
 

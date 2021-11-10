@@ -63,6 +63,9 @@ namespace DemoMvc
 
             app.UseRouting();
 
+            // Actually check for an Auth cookie!
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
