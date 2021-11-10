@@ -1,3 +1,4 @@
+@model DemoMvc.Models.Identity.RegisterData
 @{
     ViewData["Title"] = "Register!";
 }
@@ -5,17 +6,26 @@
 <h1>Register!</h1>
 
 <form method="post">
-    <label>
-        Email:
-        <input name="email" />
-    </label>
-    <label>
-        Username:
-        <input name="username" />
-    </label>
-    <label>
-        Password:
-        <input name="password" type="password" />
-    </label>
-    <button type="submit">Register</button>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" autofocus />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Username" class="control-label"></label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

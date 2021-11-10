@@ -1,3 +1,5 @@
+using DemoMvc.Models.Identity;
+using DemoMvc.Services.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,13 @@ namespace DemoMvc.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IUserService userService;
+
+        public AccountController(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
         // GET Account
         public IActionResult Index()
         {
@@ -15,9 +24,30 @@ namespace DemoMvc.Controllers
         }
 
         // GET Account/Register
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
+        }
+
+        // POST Account/Register
+        [HttpPost]
+        public async Task<IActionResult> RegisterAsync(RegisterData data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
+            await userService.Register(data, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
+            // Post - Redirect - Get to avoid "do you want to resubmit?"
+            return RedirectToAction(nameof(Index));
         }
     }
 }
