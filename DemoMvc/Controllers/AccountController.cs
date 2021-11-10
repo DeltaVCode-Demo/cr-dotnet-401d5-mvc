@@ -1,5 +1,6 @@
 using DemoMvc.Models.Identity;
 using DemoMvc.Services.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace DemoMvc.Controllers
         }
 
         // GET Account
+        [Authorize]
         public IActionResult Index()
         {
             return View();
