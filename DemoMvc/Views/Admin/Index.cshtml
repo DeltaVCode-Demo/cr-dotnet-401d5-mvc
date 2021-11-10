@@ -1,0 +1,16 @@
+@model AdminIndexViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Admin Dashboard</h1>
+
+<h2>
+    <a asp-controller="Categories" asp-action="Index">Categories</a>
+    (@Model.CategoryCount)
+</h2>
+
+<h2>
+    <a asp-controller="products" asp-action="Index">Products</a>
+    (@Model.ProductCount)
+</h2>

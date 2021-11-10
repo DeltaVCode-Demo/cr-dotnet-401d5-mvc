@@ -11,6 +11,7 @@ namespace DemoMvc.Services
     public interface IFamilyRepository
     {
         Task<List<Family>> GetAll();
+        Task<List<Family>> GetNew(int count);
     }
 
     public class DatabaseFamilyRepository : IFamilyRepository
@@ -29,6 +30,14 @@ namespace DemoMvc.Services
             //    new Family { Id = 45, Name = "Jetsons" },
             //};
             return await _context.Families.ToListAsync();
+        }
+
+        public async Task<List<Family>> GetNew(int count)
+        {
+            return await _context.Families
+                .OrderByDescending(f => f.Id) // Sort newest to oldest
+                .Take(count)
+                .ToListAsync();
         }
     }
 }

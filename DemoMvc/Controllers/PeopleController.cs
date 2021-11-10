@@ -10,22 +10,23 @@ using DemoMvc.Models;
 
 namespace DemoMvc.Controllers
 {
-    public class FamiliesController : Controller
+    public class PeopleController : Controller
     {
         private readonly DemoDbContext _context;
 
-        public FamiliesController(DemoDbContext context)
+        public PeopleController(DemoDbContext context)
         {
             _context = context;
         }
 
-        // GET: Families
+        // GET: People
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Families.ToListAsync());
+            var demoDbContext = _context.Persons.Include(p => p.Family);
+            return View(await demoDbContext.ToListAsync());
         }
 
-        // GET: Families/Details/5
+        // GET: People/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,40 +34,42 @@ namespace DemoMvc.Controllers
                 return NotFound();
             }
 
-            var family = await _context.Families
-                .Include(f => f.People)
+            var person = await _context.Persons
+                .Include(p => p.Family)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (family == null)
+            if (person == null)
             {
                 return NotFound();
             }
 
-            return View(family);
+            return View(person);
         }
 
-        // GET: Families/Create
+        // GET: People/Create
         public IActionResult Create()
         {
+            ViewData["FamilyId"] = new SelectList(_context.Families, "Id", "Name");
             return View();
         }
 
-        // POST: Families/Create
+        // POST: People/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Family family)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateOfBirth,FamilyId")] Person person)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(family);
+                _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(family);
+            ViewData["FamilyId"] = new SelectList(_context.Families, "Id", "Name", person.FamilyId);
+            return View(person);
         }
 
-        // GET: Families/Edit/5
+        // GET: People/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +77,23 @@ namespace DemoMvc.Controllers
                 return NotFound();
             }
 
-            var family = await _context.Families.FindAsync(id);
-            if (family == null)
+            var person = await _context.Persons.FindAsync(id);
+            if (person == null)
             {
                 return NotFound();
             }
-            return View(family);
+            ViewData["FamilyId"] = new SelectList(_context.Families, "Id", "Name", person.FamilyId);
+            return View(person);
         }
 
-        // POST: Families/Edit/5
+        // POST: People/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Family family)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateOfBirth,FamilyId")] Person person)
         {
-            if (id != family.Id)
+            if (id != person.Id)
             {
                 return NotFound();
             }
@@ -98,12 +102,12 @@ namespace DemoMvc.Controllers
             {
                 try
                 {
-                    _context.Update(family);
+                    _context.Update(person);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FamilyExists(family.Id))
+                    if (!PersonExists(person.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +118,11 @@ namespace DemoMvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(family);
+            ViewData["FamilyId"] = new SelectList(_context.Families, "Id", "Name", person.FamilyId);
+            return View(person);
         }
 
-        // GET: Families/Delete/5
+        // GET: People/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +130,31 @@ namespace DemoMvc.Controllers
                 return NotFound();
             }
 
-            var family = await _context.Families
+            var person = await _context.Persons
+                .Include(p => p.Family)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (family == null)
+            if (person == null)
             {
                 return NotFound();
             }
 
-            return View(family);
+            return View(person);
         }
 
-        // POST: Families/Delete/5
+        // POST: People/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var family = await _context.Families.FindAsync(id);
-            _context.Families.Remove(family);
+            var person = await _context.Persons.FindAsync(id);
+            _context.Persons.Remove(person);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FamilyExists(int id)
+        private bool PersonExists(int id)
         {
-            return _context.Families.Any(e => e.Id == id);
+            return _context.Persons.Any(e => e.Id == id);
         }
     }
 }

@@ -26,6 +26,9 @@ namespace DemoMvc.Controllers
             _logger.LogInformation("Home!!");
 
             List<Family> families = await familyRepository.GetAll();
+
+            List<Family> newFamilies = await familyRepository.GetNew(5);
+
             return View(families);
         }
 

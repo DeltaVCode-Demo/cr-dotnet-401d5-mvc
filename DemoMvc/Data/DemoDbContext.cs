@@ -14,5 +14,6 @@ namespace DemoMvc.Data
         }
 
         public DbSet<Family> Families { get; set; }
+        public DbSet<Person> Persons { get; set; }
     }
 }
