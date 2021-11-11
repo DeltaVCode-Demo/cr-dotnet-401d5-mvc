@@ -76,10 +76,14 @@ namespace DemoMvc.Controllers
             return View(data);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UploadProfile(IFormFile profileImage)
         {
             string url = await fileUploadService.Upload(profileImage);
+
+            await userService.SetProfileImage(User, url);
+
             return RedirectToAction(nameof(Index));
         }
     }

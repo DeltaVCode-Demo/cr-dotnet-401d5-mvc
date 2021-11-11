@@ -17,3 +17,9 @@
         <button type="submit">Upload</button>
     </div>
 </form>
+
+@{ var profileUrl = User.FindFirst("ProfileUrl"); }
+@if (profileUrl != null)
+{
+    <img src="@profileUrl.Value" />
+}
