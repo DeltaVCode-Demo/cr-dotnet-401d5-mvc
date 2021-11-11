@@ -98,6 +98,10 @@ namespace DemoMvc.Services.Identity
             // user.ProfileUrl = url;
             // await userManager.UpdateAsync(user);
 
+            // Remove any existing values
+            var existingProfileUrls = principal.FindAll("ProfileUrl");
+            await userManager.RemoveClaimsAsync(user, existingProfileUrls);
+
             await userManager.AddClaimAsync(user, new Claim("ProfileUrl", url));
             await signInManager.RefreshSignInAsync(user);
         }
