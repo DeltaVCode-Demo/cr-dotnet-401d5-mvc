@@ -1,6 +1,7 @@
 using DemoMvc.Models.Identity;
 using DemoMvc.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,12 @@ namespace DemoMvc.Controllers
             ModelState.AddModelError(nameof(LoginData.Password), "Email or Password was incorrect.");
 
             return View(data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfile(IFormFile profileImage)
+        {
+            return RedirectToAction(nameof(Index));
         }
     }
 }
