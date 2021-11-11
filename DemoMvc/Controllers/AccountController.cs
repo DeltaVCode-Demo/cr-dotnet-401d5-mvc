@@ -1,4 +1,5 @@
 using DemoMvc.Models.Identity;
+using DemoMvc.Services;
 using DemoMvc.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,10 +14,12 @@ namespace DemoMvc.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService userService;
+        private readonly IFileUploadService fileUploadService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IFileUploadService fileUploadService)
         {
             this.userService = userService;
+            this.fileUploadService = fileUploadService;
         }
 
         // GET Account
@@ -76,6 +79,7 @@ namespace DemoMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadProfile(IFormFile profileImage)
         {
+            string url = await fileUploadService.Upload(profileImage);
             return RedirectToAction(nameof(Index));
         }
     }
