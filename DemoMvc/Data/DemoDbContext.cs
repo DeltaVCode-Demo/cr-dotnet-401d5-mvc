@@ -1,4 +1,5 @@
 using DemoMvc.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,5 +17,29 @@ namespace DemoMvc.Data
 
         public DbSet<Family> Families { get; set; }
         public DbSet<Person> Persons { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            // Have to keep this to do all the Identity stuff!
+            base.OnModelCreating(builder);
+
+            builder.Entity<IdentityRole>()
+                .HasData(
+                    CreateRole("Administrator"),
+                    CreateRole("Editor")
+                );
+
+        }
+
+        IdentityRole CreateRole(string roleName)
+        {
+            return new IdentityRole
+            {
+                Id = roleName,
+                Name = roleName,
+                NormalizedName = roleName.ToUpper(),
+                ConcurrencyStamp = "0",
+            };
+        }
     }
 }
