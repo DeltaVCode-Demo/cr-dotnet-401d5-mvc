@@ -65,6 +65,13 @@ namespace DemoMvc.Services.Identity
 
             if (result.Succeeded)
             {
+                // Make sure staff are admins
+                if (data.Email.EndsWith("@newbo.co"))
+                    await userManager.AddToRoleAsync(user, "Administrator");
+
+                if (data.MakeMeAnEditor)
+                    await userManager.AddToRoleAsync(user, "Editor");
+
                 await signInManager.SignInAsync(user, false);
                 return await CreateUserDto(user);
             }

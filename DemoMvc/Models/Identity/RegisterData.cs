@@ -23,5 +23,7 @@ namespace DemoMvc.Models.Identity
 
         // Could allow these if we also add to ApplicationUser
         // FirstName, LastName
+
+        public bool MakeMeAnEditor { get; set; }
     }
 }
