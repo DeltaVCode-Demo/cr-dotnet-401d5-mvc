@@ -44,7 +44,7 @@ namespace DemoMvc
             services.AddScoped<IFamilyRepository, DatabaseFamilyRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
 
-            services.AddSingleton<IFileUploadService, KeithFileUploadService>();
+            services.AddSingleton<IFileUploadService, AzureFileUploadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
