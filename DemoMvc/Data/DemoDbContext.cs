@@ -1,4 +1,5 @@
 using DemoMvc.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DemoMvc.Data
 {
-    public class DemoDbContext : DbContext
+    public class DemoDbContext : IdentityDbContext /* <ApplicationUser> */
     {
         public DemoDbContext(DbContextOptions options) : base(options)
         {

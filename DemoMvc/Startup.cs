@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using DemoMvc.Data;
 using DemoMvc.Services;
+using DemoMvc.Services.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,14 @@ namespace DemoMvc
             services.AddDbContext<DemoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services
+                .AddIdentity<IdentityUser, IdentityRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<DemoDbContext>(); // where are users stored?
+            services.AddScoped<IUserService, IdentityUserService>();
+
             services.AddScoped<IFamilyRepository, DatabaseFamilyRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
         }
@@ -52,6 +62,9 @@ namespace DemoMvc
             app.UseStaticFiles(); // Load CSS and JS files from wwwroot
 
             app.UseRouting();
+
+            // Actually check for an Auth cookie!
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

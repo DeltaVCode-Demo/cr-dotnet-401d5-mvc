@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DemoMvc.Data;
 using DemoMvc.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DemoMvc.Controllers
 {
@@ -118,6 +119,7 @@ namespace DemoMvc.Controllers
         }
 
         // GET: Families/Delete/5
+        [Authorize(Roles = "Adminsitrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +140,7 @@ namespace DemoMvc.Controllers
         // POST: Families/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Adminsitrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var family = await _context.Families.FindAsync(id);
