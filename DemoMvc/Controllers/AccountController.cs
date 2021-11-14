@@ -1,6 +1,8 @@
 using DemoMvc.Models.Identity;
+using DemoMvc.Services;
 using DemoMvc.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,12 @@ namespace DemoMvc.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService userService;
+        private readonly IFileUploadService fileUploadService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IFileUploadService fileUploadService)
         {
             this.userService = userService;
+            this.fileUploadService = fileUploadService;
         }
 
         // GET Account
@@ -70,6 +74,17 @@ namespace DemoMvc.Controllers
             ModelState.AddModelError(nameof(LoginData.Password), "Email or Password was incorrect.");
 
             return View(data);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UploadProfile(IFormFile profileImage)
+        {
+            string url = await fileUploadService.Upload(profileImage);
+
+            await userService.SetProfileImage(User, url);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

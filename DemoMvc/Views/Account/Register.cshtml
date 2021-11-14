@@ -21,6 +21,11 @@
         <input asp-for="Password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="MakeMeAnEditor" class="control-label"></label>
+        <input asp-for="MakeMeAnEditor" class="form-control" />
+        <span asp-validation-for="MakeMeAnEditor" class="text-danger"></span>
+    </div>
     <button type="submit" class="btn btn-primary">Register</button>
 
     <div asp-validation-summary="All" class="alert alert-danger"></div>

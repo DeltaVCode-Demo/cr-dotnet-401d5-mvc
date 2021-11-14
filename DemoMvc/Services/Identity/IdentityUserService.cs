@@ -15,6 +15,7 @@ namespace DemoMvc.Services.Identity
         Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState);
         Task<UserDto> Authenticate(LoginData data);
         Task<UserDto> GetUser(ClaimsPrincipal user);
+        Task SetProfileImage(ClaimsPrincipal user, string url);
     }
 
     public class IdentityUserService : IUserService
@@ -65,6 +66,13 @@ namespace DemoMvc.Services.Identity
 
             if (result.Succeeded)
             {
+                // Make sure staff are admins
+                if (data.Email.EndsWith("@newbo.co"))
+                    await userManager.AddToRoleAsync(user, "Administrator");
+
+                if (data.MakeMeAnEditor)
+                    await userManager.AddToRoleAsync(user, "Editor");
+
                 await signInManager.SignInAsync(user, false);
                 return await CreateUserDto(user);
             }
@@ -80,6 +88,22 @@ namespace DemoMvc.Services.Identity
             }
 
             return null;
+        }
+
+        public async Task SetProfileImage(ClaimsPrincipal principal, string url)
+        {
+            var user = await userManager.GetUserAsync(principal);
+
+            // Could add this to ApplicationUser but Keith did not think ahead
+            // user.ProfileUrl = url;
+            // await userManager.UpdateAsync(user);
+
+            // Remove any existing values
+            var existingProfileUrls = principal.FindAll("ProfileUrl");
+            await userManager.RemoveClaimsAsync(user, existingProfileUrls);
+
+            await userManager.AddClaimAsync(user, new Claim("ProfileUrl", url));
+            await signInManager.RefreshSignInAsync(user);
         }
 
         private async Task<UserDto> CreateUserDto(IdentityUser user)

@@ -7,6 +7,9 @@ namespace DemoMvc.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // We want to require DoB, so let's delete everyone who doesn't have one
+            migrationBuilder.Sql("DELETE FROM Persons");
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "DateOfBirth",
                 table: "Persons",
