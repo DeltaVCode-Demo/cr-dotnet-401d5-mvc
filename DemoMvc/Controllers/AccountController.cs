@@ -38,6 +38,7 @@ namespace DemoMvc.Controllers
 
         // POST Account/Register
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(RegisterData data)
         {
             if (!ModelState.IsValid)
@@ -63,6 +64,7 @@ namespace DemoMvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginData data)
         {
             var user = await userService.Authenticate(data);
@@ -77,6 +79,7 @@ namespace DemoMvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
@@ -85,6 +88,7 @@ namespace DemoMvc.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadProfile(IFormFile profileImage)
         {
             string url = await fileUploadService.Upload(profileImage);
