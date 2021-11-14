@@ -76,6 +76,13 @@ namespace DemoMvc.Controllers
             return View(data);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await userService.Logout();
+            return Redirect("/");
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> UploadProfile(IFormFile profileImage)

@@ -16,6 +16,7 @@ namespace DemoMvc.Services.Identity
         Task<UserDto> Authenticate(LoginData data);
         Task<UserDto> GetUser(ClaimsPrincipal user);
         Task SetProfileImage(ClaimsPrincipal user, string url);
+        Task Logout();
     }
 
     public class IdentityUserService : IUserService
@@ -52,6 +53,11 @@ namespace DemoMvc.Services.Identity
             if (user == null) return null;
 
             return await CreateUserDto(user);
+        }
+
+        public async Task Logout()
+        {
+            await signInManager.SignOutAsync();
         }
 
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
