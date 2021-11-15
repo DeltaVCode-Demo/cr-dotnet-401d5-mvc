@@ -1,6 +1,11 @@
-@page
+@page "{name?}"
 @model DemoMvc.Pages.RazorPageTestModel
 @{
 }
 
 <h1>Razor Testing!</h1>
+@if (Model.Name != null)
+{
+    <p>Welcome, @Model.Name</p>
+}
+<a href="/">Go Home</a>

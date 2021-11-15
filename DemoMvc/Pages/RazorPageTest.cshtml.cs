@@ -9,8 +9,11 @@ namespace DemoMvc.Pages
 {
     public class RazorPageTestModel : PageModel
     {
-        public void OnGet()
+        public string Name { get; private set; }
+
+        public void OnGet(string name)
         {
+            Name = name;
         }
     }
 }
