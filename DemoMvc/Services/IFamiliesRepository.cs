@@ -12,6 +12,7 @@ namespace DemoMvc.Services
     {
         Task<List<Family>> GetAll();
         Task<List<Family>> GetNew(int count);
+        Task<Family> GetById(int? id);
     }
 
     public class DatabaseFamilyRepository : IFamilyRepository
@@ -30,6 +31,13 @@ namespace DemoMvc.Services
             //    new Family { Id = 45, Name = "Jetsons" },
             //};
             return await _context.Families.ToListAsync();
+        }
+
+        public async Task<Family> GetById(int? id)
+        {
+            return await _context.Families
+                .Include(f => f.People)
+                .FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public async Task<List<Family>> GetNew(int count)

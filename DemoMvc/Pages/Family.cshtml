@@ -4,3 +4,10 @@
 }
 
 <h1>Family: @Model.Family.Name</h1>
+
+<ul>
+    @foreach (var person in Model.Family.People)
+    {
+        <li>@person.FirstName @person.LastName</li>
+    }
+</ul>
