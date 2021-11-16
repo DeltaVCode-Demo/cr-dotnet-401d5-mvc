@@ -29,6 +29,7 @@ namespace DemoMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddDbContext<DemoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -72,6 +73,9 @@ namespace DemoMvc
 
             app.UseEndpoints(endpoints =>
             {
+                // FIRST, check if we have a Razor Page
+                endpoints.MapRazorPages();
+
                 // Used this for APIs, which specify their own routes
                 endpoints.MapControllers();
 

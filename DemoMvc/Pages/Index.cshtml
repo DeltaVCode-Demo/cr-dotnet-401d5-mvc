@@ -1,0 +1,13 @@
+@page
+@model DemoMvc.Pages.IndexModel
+@{
+    //Layout = "_Layout";
+}
+
+<h1>Hello from Razor Pages!</h1>
+<p>Model type is @Model.GetType().FullName</p>
+<p>Page was generated at @Html.DisplayFor(model => model.PageGeneratedAt)</p>
+
+<a asp-page="RazorPageTest">Razor Test Page!</a>
+
+<a asp-page="RPFamily/Index">Razor Pages Families</a>
