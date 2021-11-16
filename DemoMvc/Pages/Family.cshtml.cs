@@ -22,9 +22,15 @@ namespace DemoMvc.Pages
         public Family Family { get; set; }
 
         // Sorta Controller Action-ish
-        public async Task OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             Family = await familyRepository.GetById(id);
+
+            // Bad id!
+            if (Family == null)
+                return NotFound();
+
+            return Page();
         }
     }
 }
