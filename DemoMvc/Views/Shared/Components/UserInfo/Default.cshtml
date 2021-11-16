@@ -1,0 +1,13 @@
+@model DemoMvc.Models.Identity.UserDto
+@{
+}
+
+In Views/Shared!
+@if (Model == null)
+{
+    <p>No user found.</p>
+}
+else
+{
+    <p>@Model.UserId</p>
+}
