@@ -11,3 +11,10 @@
 <a asp-page="RazorPageTest">Razor Test Page!</a>
 
 <a asp-page="RPFamily/Index">Razor Pages Families</a>
+
+<h2>New Families!</h2>
+
+@foreach (var fam in Model.NewFamilies)
+{
+    <li>@fam.Name</li>
+}
