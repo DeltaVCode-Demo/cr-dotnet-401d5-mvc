@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -15,11 +16,14 @@ namespace DemoMvc.Services
 
     public class SendGridEmailService : IEmailService
     {
+        private readonly ILogger<SendGridEmailService> logger;
+
         private IConfiguration Configuration { get; }
 
-        public SendGridEmailService(IConfiguration configuration)
+        public SendGridEmailService(IConfiguration configuration, ILogger<SendGridEmailService> logger)
         {
             Configuration = configuration;
+            this.logger = logger;
         }
 
         public async Task SendEmail(string toEmail, string subject, string plainTextContent, string htmlContent)
@@ -37,6 +41,11 @@ namespace DemoMvc.Services
             //var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
+            if (!response.IsSuccessStatusCode)
+            {
+                // TODO: Include more info to troubleshoot
+                logger.LogWarning("Could not send email!");
+            }
         }
     }
 }
