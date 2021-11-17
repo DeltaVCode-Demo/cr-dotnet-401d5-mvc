@@ -30,10 +30,12 @@ namespace DemoMvc.Services
         {
             var apiKey = Configuration["SendGrid:ApiKey"]
                 ?? throw new InvalidOperationException("SendGrid:ApiKey not found!");
+            var fromEmail = Configuration["Email:From"]
+                ?? throw new InvalidOperationException("Email:From not found!");
 
             var client = new SendGridClient(apiKey);
             //var from = new EmailAddress("test@example.com", "Example User");
-            var from = new EmailAddress("keith+401d5@deltavcodeschool.com");
+            var from = new EmailAddress(fromEmail);
             //var subject = "Sending with SendGrid is Fun";
             // var to = new EmailAddress("test@example.com", "Example User");
             var to = new EmailAddress(toEmail);
