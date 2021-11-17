@@ -11,3 +11,16 @@
 <a asp-page="RazorPageTest">Razor Test Page!</a>
 
 <a asp-page="RPFamily/Index">Razor Pages Families</a>
+
+<h2>New Families!</h2>
+
+@foreach (var fam in Model.NewFamilies)
+{
+    <li>
+        <a asp-page="Family" asp-route-id="@fam.Id">@fam.Name</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <text>(<a asp-controller="Families" asp-action="Details" asp-route-id="@fam.Id">Admin</a>)</text>
+        }
+    </li>
+}

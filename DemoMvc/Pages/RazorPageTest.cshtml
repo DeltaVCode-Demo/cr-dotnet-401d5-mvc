@@ -9,3 +9,10 @@
     <p>Welcome, @Model.Name</p>
 }
 <a href="/">Go Home</a>
+
+<h2>Components!</h2>
+<h3><code>Component.InvokeAsync()</code></h3>
+@await Component.InvokeAsync("UserInfo") 
+
+<h3><code>vc:</code> Tag Helper</h3>
+<vc:user-info />
