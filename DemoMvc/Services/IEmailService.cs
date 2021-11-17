@@ -43,8 +43,12 @@ namespace DemoMvc.Services
             var response = await client.SendEmailAsync(msg);
             if (!response.IsSuccessStatusCode)
             {
+                string responseBody = await response.Body.ReadAsStringAsync();
                 // TODO: Include more info to troubleshoot
-                logger.LogWarning("Could not send email!");
+                logger.LogWarning(
+                    "Could not send email! {Status} {Body}",
+                    response.StatusCode,
+                    responseBody);
             }
         }
     }
