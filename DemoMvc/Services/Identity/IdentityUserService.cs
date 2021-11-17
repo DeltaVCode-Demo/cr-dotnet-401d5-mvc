@@ -23,12 +23,14 @@ namespace DemoMvc.Services.Identity
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
+        readonly IEmailService emailService;
 
-        public IdentityUserService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<IdentityUserService> logger)
+        public IdentityUserService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<IdentityUserService> logger, IEmailService emailService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             Logger = logger;
+            this.emailService = emailService;
         }
 
         public ILogger<IdentityUserService> Logger { get; }
@@ -78,6 +80,13 @@ namespace DemoMvc.Services.Identity
 
                 if (data.MakeMeAnEditor)
                     await userManager.AddToRoleAsync(user, "Editor");
+
+                await emailService.SendEmail(
+                    data.Email,
+                    "Welcome to 401d5 Demo!",
+                    "Welcome!",
+                    "<h1>Welcome</h1>"
+                    );
 
                 await signInManager.SignInAsync(user, false);
                 return await CreateUserDto(user);
