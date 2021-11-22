@@ -46,6 +46,8 @@ namespace DemoMvc
             services.AddScoped<IDashboardRepository, DashboardRepository>();
 
             services.AddSingleton<IFileUploadService, AzureFileUploadService>();
+
+            services.AddSingleton<IEmailService, SendGridEmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
